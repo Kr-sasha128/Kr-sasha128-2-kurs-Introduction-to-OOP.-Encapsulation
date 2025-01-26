@@ -25,7 +25,7 @@ public class SearchEngine {
         int resultIndex = 0;
 
         for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(query)) {
+            if (searchable != null && searchable.getSearchTerm().contains(query) || searchable != null && searchable.getSearchTerm().contains(query) ) {
                 results[resultIndex++] = searchable;
                 if (resultIndex == 5) {
                     break; // Если нашли 5 элементов, выходим из цикла

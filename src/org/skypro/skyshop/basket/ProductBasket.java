@@ -4,12 +4,16 @@ import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
     private final Product[] products;
-    public int count;
+    private int count;
     public static int specialProductCount = 0;
 
     public ProductBasket() {
         this.products = new Product[5];
 
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public int incrementSpecialCount() {
