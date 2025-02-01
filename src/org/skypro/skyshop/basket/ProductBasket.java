@@ -9,7 +9,11 @@ public class ProductBasket {
 
     public ProductBasket() {
         this.products = new Product[5];
-        this.count = 0;
+
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public int incrementSpecialCount() {
