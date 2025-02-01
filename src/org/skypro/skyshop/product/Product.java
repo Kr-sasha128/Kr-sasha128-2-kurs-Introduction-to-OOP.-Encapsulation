@@ -17,6 +17,9 @@ public abstract class Product implements Searchable {
 
 
     public Product(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(" Поле name не заполнено");
+        }
         this.name = name;
 
     }

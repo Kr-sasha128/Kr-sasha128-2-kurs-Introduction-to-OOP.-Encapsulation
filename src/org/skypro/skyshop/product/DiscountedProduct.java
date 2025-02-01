@@ -6,8 +6,15 @@ public class DiscountedProduct extends Product {
 
     public DiscountedProduct(String name, int basePrice, int discount) {
         super(name);
+        if (basePrice < 1) {
+            throw new IllegalArgumentException(" Некорректное отображаение стоимости");
+        }
         this.basePrice = basePrice;
-        this.discount = discount;
+        if (discount >= 0 && discount <= 100) {
+            this.discount = discount;
+        } else {
+            throw new IllegalArgumentException(" Ошибка выведения скидки");
+        }
     }
 
     @Override
