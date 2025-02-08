@@ -1,15 +1,19 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.*;
 import org.skypro.skyshop.searchEngine.SearchEngine;
 import org.skypro.skyshop.searchEngine.Searchable;
 
+
 public class App {
+
+
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
         Product a1 = new SimpleProduct("Телефон", 1000);
-        Product a2 = new DiscountedProduct("Кроссовки", 900, 50);
+        Product a2 = new DiscountedProduct("Кроссовки", 900, 100);
         Product a3 = new FixPriceProduct("Наушники");
 
         Product a4 = new SimpleProduct("Пульт", 700);
@@ -58,6 +62,39 @@ public class App {
                 }
             }
         }
+        System.out.println("\n Домашнее задание Исключения в Java ");
+
+        try {
+            Product product1 = new SimpleProduct(" ", 1000);
+            System.out.println(product1);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+        try {
+            Product product2 = new DiscountedProduct("Кроссовки", 900, 101);
+            System.out.println(product2);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+        try {
+            Product product4 = new SimpleProduct("Пульт", -1);
+            System.out.println(product4);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("Java");
+            System.out.println("Максимальное повторение слова Java : " + bestMatch);
+        } catch (BestResultNotFound e) {
+            System.out.println(e);
+        }
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("Kotlin");
+            System.out.println("Максимальное повторение слова Java в: " + bestMatch);
+        } catch (BestResultNotFound e) {
+            System.out.println(e);
+        }
     }
 }
-
