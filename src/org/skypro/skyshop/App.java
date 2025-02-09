@@ -1,10 +1,11 @@
-package org.skypro.skyshop;
+ package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.*;
 import org.skypro.skyshop.searchEngine.SearchEngine;
 import org.skypro.skyshop.searchEngine.Searchable;
+import java.util.LinkedList;
 
 
 public class App {
@@ -39,7 +40,8 @@ public class App {
         System.out.println("Общая стоимость корзины: " + basket.getTotalCost());
         System.out.println("В корзине есть мышька?" + basket.containsProduct("мышка"));
 
-        //Реализация поисковой системы
+        System.out.println("\n Реализация поисковой системы");
+
         SearchEngine searchEngine = new SearchEngine(10);
         searchEngine.add(new Article("Introduction to Java", "Java is a versatile language..."));
         searchEngine.add(new Article("Learning Python", "Python is great for beginners."));
@@ -54,7 +56,7 @@ public class App {
 
         for (String query : queries) {
             System.out.println("\nПоиск по запросу: " + query);
-            Searchable[] results = searchEngine.search(query);
+            LinkedList <Searchable>  results = searchEngine.search(query);
 
             for (Searchable result : results) {
                 if (result != null) {
@@ -96,5 +98,31 @@ public class App {
         } catch (BestResultNotFound e) {
             System.out.println(e);
         }
+
+        System.out.println("\n Домашнее задание Листы ");
+        ProductBasket basket1 = new ProductBasket();
+        Product p1 = new SimpleProduct("Ноутбук", 2500);
+        Product p2 = new DiscountedProduct("Куртка", 1500, 40);
+        Product p3 = new FixPriceProduct("Часы");
+        Product p4 = new SimpleProduct("Клавиатура", 850);
+        Product p5 = new SimpleProduct("Флешка", 450);
+        Product p6 = new SimpleProduct("Рюкзак", 1200);
+
+        basket1.addProduct(p1);
+        basket1.addProduct(p2);
+        basket1.addProduct(p3);
+        basket1.addProduct(p4);
+        basket1.addProduct(p5);
+        basket1.addProduct(p6);
+
+        basket1.removeProductsByName("Часы");
+        basket1.removeProductsByName("Клавиатура");
+
+        basket1.printBasket();
+
+        basket1.removeProductsByName("Телевизор");
+
+
+        basket1.printBasket();
     }
 }

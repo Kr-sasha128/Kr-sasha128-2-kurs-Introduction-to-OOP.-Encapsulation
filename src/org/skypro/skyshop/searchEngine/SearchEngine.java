@@ -2,38 +2,31 @@ package org.skypro.skyshop.searchEngine;
 
 import org.skypro.skyshop.exception.BestResultNotFound;
 
+import java.util.LinkedList;
+
 public class SearchEngine {
-    private final Searchable[] searchables;
-    private int currentIndex;
+    private final LinkedList<Searchable> searchables;
 
     public SearchEngine(int size) {
-        this.searchables = new Searchable[size];
-        this.currentIndex = 0;
+        this.searchables = new LinkedList<>();
     }
 
     // Метод добавления нового объекта Searchable в массив
     public void add(Searchable searchable) {
-        if (currentIndex < searchables.length) {
-            searchables[currentIndex] = searchable;
-            currentIndex++;
-        } else {
-            System.out.println("Невозможно добавить элемент: массив заполнен.");
-        }
+        if (searchable != null) {
+            this.searchables.add(searchable);}
     }
 
     // Метод поиска по строке
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5]; // Массив для хранения первых 5 результатов
-        int resultIndex = 0;
+    public LinkedList<Searchable> search(String query) {
+        LinkedList<Searchable> results = new LinkedList<>();
 
         for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(query)) {
-                results[resultIndex++] = searchable;
-                if (resultIndex == 5) {
-                    break; // Если нашли 5 элементов, выходим из цикла
-                }
+            if (searchable.getSearchTerm().contains(query)) {
+                results.add(searchable);
             }
         }
+
         return results;
     }
     public Searchable findBestMatch (String query) throws BestResultNotFound{
