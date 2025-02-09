@@ -14,7 +14,8 @@ public class SearchEngine {
     // Метод добавления нового объекта Searchable в массив
     public void add(Searchable searchable) {
         if (searchable != null) {
-        this.searchables.add(searchable);}
+            this.searchables.add(searchable);
+        }
     }
 
     // Метод поиска по строке
@@ -29,7 +30,8 @@ public class SearchEngine {
 
         return results;
     }
-    public Searchable findBestMatch (String query) throws BestResultNotFound{
+
+    public Searchable findBestMatch(String query) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = 0;
 

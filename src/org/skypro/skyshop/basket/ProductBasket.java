@@ -70,6 +70,7 @@ public class ProductBasket {
         }
         count = 0;
     }
+
     public LinkedList<Product> removeProductsByName(String name) {
         LinkedList<Product> removedProducts = new LinkedList<>();
         Iterator<Product> iterator = products.iterator();
@@ -81,8 +82,7 @@ public class ProductBasket {
                 removedProducts.add(product);
                 iterator.remove();
                 System.out.println("Удаленные продукты: " + product);
-            }
-           else if (product.isSpecial()) {
+            } else if (product.isSpecial()) {
                 specialProductCount--;
             }
         }
