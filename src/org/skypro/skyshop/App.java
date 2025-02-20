@@ -1,11 +1,13 @@
- package org.skypro.skyshop;
+package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.*;
 import org.skypro.skyshop.searchEngine.SearchEngine;
 import org.skypro.skyshop.searchEngine.Searchable;
+
 import java.util.LinkedList;
+import java.util.Map;
 
 
 public class App {
@@ -32,8 +34,8 @@ public class App {
 
         basket.printBasket();
 
-        System.out.println("В корзине есть мышька?" + basket.containsProduct("мышка"));
-        System.out.println("В корзине есть ёлка?" + basket.containsProduct("ёлка"));
+        System.out.println("В корзине есть мышька?" + basket.containsProduct("Мышка"));
+        System.out.println("В корзине есть ёлка?" + basket.containsProduct("Ёлка"));
 
         basket.clearBasket();
         basket.printBasket();
@@ -56,9 +58,11 @@ public class App {
 
         for (String query : queries) {
             System.out.println("\nПоиск по запросу: " + query);
-            LinkedList <Searchable>  results = searchEngine.search(query);
-
-            for (Searchable result : results) {
+            Map<String, Searchable> results = searchEngine.search(query);
+            if (results.isEmpty()) {
+                System.out.println("Ничего не найдено");
+            }
+            for (Searchable result : results.values()) {
                 if (result != null) {
                     System.out.println("Результаты поиска: " + result.getStringRepresentation());
                 }
@@ -99,7 +103,8 @@ public class App {
             System.out.println(e);
         }
 
-        System.out.println("\n Домашнее задание Листы ");
+        System.out.println("\nДомашнее задание Листы ");
+
         ProductBasket basket1 = new ProductBasket();
         Product p1 = new SimpleProduct("Ноутбук", 2500);
         Product p2 = new DiscountedProduct("Куртка", 1500, 40);
