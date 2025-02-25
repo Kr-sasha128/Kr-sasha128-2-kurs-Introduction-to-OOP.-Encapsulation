@@ -47,7 +47,7 @@ public class ProductBasket {
             System.out.println("В корзине пусто");
             return;
         }
-        for (List <Product> productList : products.values()) {
+        for (List<Product> productList : products.values()) {
             for (Product product : productList)
                 System.out.println(product);
         }
@@ -69,11 +69,6 @@ public class ProductBasket {
         if (removedProducts == null) {
             System.out.println("\n Список пуст\n");
             return Collections.emptyList();
-        }
-        for (Product product : removedProducts) {
-            if (product.isSpecial()) {
-                specialProductCount--;
-            }
         }
         products.remove(name);
         System.out.println("Удаленные продукты: " + removedProducts);
