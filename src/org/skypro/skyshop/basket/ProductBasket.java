@@ -2,23 +2,24 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class ProductBasket {
-    private final LinkedList<Product> products;
-    private int count;
-    public static int specialProductCount = 0;
+    private final HashMap<String, List<Product>> products;
+    public static int specialProductCount;
 
     public ProductBasket() {
-        this.products = new LinkedList<>();
+        this.products = new HashMap<>();
 
     }
 
     public int incrementSpecialCount() {
-        for (Product basket : products) {
-            if (basket != null && basket.isSpecial()) {
-                specialProductCount++;
+        specialProductCount = 0;
+        for (List<Product> basket : products.values()) {
+            for (Product product : basket) {
+                if (product.isSpecial()) {
+                    specialProductCount++;
+                }
             }
         }
         return specialProductCount;
@@ -26,29 +27,29 @@ public class ProductBasket {
 
     public void addProduct(Product product) {
         if (product != null) {
-            this.products.add(product);
-            count++;
+            products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
         }
     }
 
     public int getTotalCost() {
         int total = 0;
-        for (Product product : products) {
-            if (product != null) {
-
-                total += product.getCost();
+        for (List<Product> productList : products.values()) {
+            if (productList != null) {
+                for (Product product : productList)
+                    total += product.getCost();
             }
         }
         return total;
     }
 
     public void printBasket() {
-        if (count == 0) {
+        if (products.isEmpty()) {
             System.out.println("В корзине пусто");
             return;
         }
-        for (Product product : products) {
-            System.out.println(product);
+        for (List <Product> productList : products.values()) {
+            for (Product product : productList)
+                System.out.println(product);
         }
         System.out.println("Итого: " + getTotalCost() + "P");
         System.out.println("Количество специальных товаров  " + incrementSpecialCount());
@@ -56,40 +57,38 @@ public class ProductBasket {
 
 
     public boolean containsProduct(String productName) {
-        for (int i = 0; i < count; i++) {
-            if (products.get(i).getName().equalsIgnoreCase(productName)) {
-                return true;
-            }
-        }
-        return false;
+        return products.containsKey(productName);
     }
 
     public void clearBasket() {
-        for (int i = 0; i < count; i++) {
-            products.set(i, null);
-        }
-        count = 0;
+        products.clear();
     }
-    public LinkedList<Product> removeProductsByName(String name) {
-        LinkedList<Product> removedProducts = new LinkedList<>();
-        Iterator<Product> iterator = products.iterator();
-        while (iterator.hasNext()) {
 
-            Product product = iterator.next();
-
-            if (product.getName().equals(name)) {
-                removedProducts.add(product);
-                iterator.remove();
-                System.out.println("Удаленные продукты: " + product);
-            }
-            else if (product.isSpecial()) {
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removedProducts = products.remove(name);
+        if (removedProducts == null) {
+            System.out.println("\n Список пуст\n");
+            return Collections.emptyList();
+        }
+        for (Product product : removedProducts) {
+            if (product.isSpecial()) {
                 specialProductCount--;
             }
         }
-        if (removedProducts.isEmpty()) {
-            System.out.println("\n Список пуст\n");
-        }
-
+        products.remove(name);
+        System.out.println("Удаленные продукты: " + removedProducts);
         return removedProducts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductBasket basket)) return false;
+        return Objects.equals(products, basket.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(products);
     }
 }
