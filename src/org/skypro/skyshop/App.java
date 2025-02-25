@@ -8,6 +8,7 @@ import org.skypro.skyshop.searchEngine.Searchable;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 
 public class App {
@@ -42,10 +43,11 @@ public class App {
         System.out.println("Общая стоимость корзины: " + basket.getTotalCost());
         System.out.println("В корзине есть мышька?" + basket.containsProduct("мышка"));
 
-        System.out.println("\n Реализация поисковой системы");
+        System.out.println("\n Реализация поисковой системы + Set");
 
         SearchEngine searchEngine = new SearchEngine(10);
         searchEngine.add(new Article("Introduction to Java", "Java is a versatile language..."));
+        searchEngine.add(new Article(" Java", "Java - language..."));
         searchEngine.add(new Article("Learning Python", "Python is great for beginners."));
         searchEngine.add(new Article("Advanced Java Concepts", "Exploring multithreading in Java..."));
         searchEngine.add(new SimpleProduct("Laptop", 50000));
@@ -58,13 +60,13 @@ public class App {
 
         for (String query : queries) {
             System.out.println("\nПоиск по запросу: " + query);
-            Map<String, Searchable> results = searchEngine.search(query);
+            Set<Searchable> results = searchEngine.search(query);
             if (results.isEmpty()) {
                 System.out.println("Ничего не найдено");
             }
-            for (Searchable result : results.values()) {
+            for (Searchable result : results) {
                 if (result != null) {
-                    System.out.println("Результаты поиска: " + result.getStringRepresentation());
+                    System.out.println("Результаты поиска: " + result);
                 }
             }
         }
@@ -129,5 +131,6 @@ public class App {
 
 
         basket1.printBasket();
+
     }
 }
