@@ -5,8 +5,8 @@ import org.skypro.skyshop.product.Product;
 import java.util.*;
 
 public class ProductBasket {
-    private final HashMap<String, List<Product>> products;
-    public static int specialProductCount;
+    private final Map<String, List<Product>> products;
+
 
     public ProductBasket() {
         this.products = new HashMap<>();
@@ -14,15 +14,10 @@ public class ProductBasket {
     }
 
     public int incrementSpecialCount() {
-        specialProductCount = 0;
-        for (List<Product> basket : products.values()) {
-            for (Product product : basket) {
-                if (product.isSpecial()) {
-                    specialProductCount++;
-                }
-            }
-        }
-        return specialProductCount;
+        return products.values().stream().flatMap(Collection::stream)
+                .filter(Product::isSpecial).
+                mapToInt(specialProductCount -> 1).sum();
+
     }
 
     public void addProduct(Product product) {
@@ -32,14 +27,8 @@ public class ProductBasket {
     }
 
     public int getTotalCost() {
-        int total = 0;
-        for (List<Product> productList : products.values()) {
-            if (productList != null) {
-                for (Product product : productList)
-                    total += product.getCost();
-            }
-        }
-        return total;
+        return products.values().stream().flatMap(Collection::stream)
+                .mapToInt(Product::getCost).sum();
     }
 
     public void printBasket() {
@@ -47,10 +36,10 @@ public class ProductBasket {
             System.out.println("В корзине пусто");
             return;
         }
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList)
-                System.out.println(product);
-        }
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(System.out::println);
+
         System.out.println("Итого: " + getTotalCost() + "P");
         System.out.println("Количество специальных товаров  " + incrementSpecialCount());
     }
